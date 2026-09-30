@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --color-renata: #064da1;
+  --color-renata-400: #3b82f6;
+  --color-electric: #1f6bff;
+  --color-cyan: #38d6ff;
+  --color-silver: #e7eef9;
+  --color-gold: #ffc53d;
+  --color-navy-950: #020817;
+  --color-navy-900: #04112e;
+  --color-navy-800: #071c4a;
+  --color-navy-700: #0b2a6b;
+
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin-slow: spin 28s linear infinite;
+  --animate-spin-rev: spin-rev 40s linear infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-pulse-ring: pulse-ring 2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-marquee: marquee 38s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  @keyframes spin-rev {
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.9); opacity: 0.9; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #061a45;
+  color: #f5f8ff;
+}
+
+body {
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--color-electric);
+  color: white;
+}
+
+@layer components {
+  /* No backdrop-filter here: it would re-blur the animated background canvas every frame. */
+  .glass {
+    background: linear-gradient(145deg, rgba(20, 45, 105, 0.62), rgba(8, 22, 58, 0.72));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 60px -20px rgba(0, 20, 80, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .text-chrome {
+    background: linear-gradient(180deg, #ffffff 0%, #dbe6f7 45%, #9fb6d9 55%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-electric {
+    background: linear-gradient(90deg, #38d6ff, #1f6bff 50%, #38d6ff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: var(--animate-shimmer);
+  }
+
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #1f6bff, #064da1 60%, #0b2a6b);
+    box-shadow: 0 10px 30px -8px rgba(31, 107, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+    pointer-events: none;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px -8px rgba(56, 214, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+  .btn-primary:disabled {
+    filter: grayscale(0.4) brightness(0.8);
+    transform: none;
+  }
+
+  .ring-gradient {
+    position: relative;
+  }
+  .ring-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(56, 214, 255, 0.8), rgba(31, 107, 255, 0.1) 40%, rgba(255, 255, 255, 0.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
